@@ -20,7 +20,7 @@ def get_label_dict(dict_name):
 
 def get_token(content):
     tokens = []
-    tagger = MeCab.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd')
+    tagger = MeCab.Tagger('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
     tagger.parse('')
     node = tagger.parseToNode(content)
     while node:
