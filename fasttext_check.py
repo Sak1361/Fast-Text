@@ -19,14 +19,11 @@ def get_label_dict(dict_name):
     return dictionay
 
 def get_token(content):
-    tokens = []
-    tagger = MeCab.Tagger('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
+    tagger = MeCab.Tagger('-Owakati -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
     tagger.parse('')
-    node = tagger.parseToNode(content)
-    while node:
-        tokens.append(node.surface)
-        node = node.next
-    return tokens
+    node = tagger.parse(content)
+
+    return node
 
 def main(argv):
     model_name = argv[0]
@@ -35,7 +32,7 @@ def main(argv):
     label_dict = get_label_dict(dict_name)
     classifier = ft.load_model(model_name)
     tokens = get_token(content)
-    estimate = classifier.predict_proba([' '.join(tokens)], k=3)
+    estimate = classifier.predict_proba(tokens, k=3)
     scores = get_score(estimate[0],label_dict)
     print(scores)
 

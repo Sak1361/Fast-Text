@@ -63,7 +63,7 @@ class Mecab:
         soup = str(soup).split()  # soupは文字列じゃないので注意
         soup.pop(0) #htmlタグを殲滅せよ
         soup.pop()
-        mydict = ['君','先','いわば','拍手','です','ます',]
+        mydict = ['君','先','いわば','拍手','登壇']
         soup.extend(mydict)
         ###sloth_singleword###
         sloth_1 = 'http://svn.sourceforge.jp/svnroot/slothlib/CSharp/Version1/SlothLib/NLP/Filter/StopWord/word/OneLetterJp.txt'
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     mecab = Mecab()
     c = ""
     for text in mecab.re_def(args.input):
-        c += "__label__1  "
+        c += "__label__Disagree, "
         c += mecab.counting(text) + "\n"
     with open(args.out, "w") as f:
         f.write(c)
