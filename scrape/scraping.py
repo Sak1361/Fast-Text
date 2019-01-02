@@ -1,30 +1,37 @@
-import requests, re
 from bs4 import BeautifulSoup
+import MeCab, sys, re, mojimoji
 
-def crawling(f_path1,f_path2):
-    url_positive = "http://meigen.keiziban-jp.com/ポジティブ"
-    url_negative = "http://meigen.keiziban-jp.com/ネガティブ"
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) \
-    AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+def scrape():
+    strings = ''
+    for page in range(1,10):
+        try:
+            html = open("nega-posi/positive_{0}.html".format(page),'r')
+        except FileNotFoundError:
+            break
+        soup = BeautifulSoup(html, "html.parser")
+        for res in soup.find_all(class_="description"):
+            strings += res.find('p').text + '\n'
+    return strings
 
-    response = requests.get(url_positive,headers=headers)
-    response.encoding = response.apparent_encoding
-    with open(f_path1,'w',encoding="utf-8") as f:
-        f.write(response.text)
-    response = requests.get(url_negative,headers=headers)
-    response.encoding = response.apparent_encoding
-    with open(f_path2,'w',encoding="utf-8") as f:
-        f.write(response.text)
-
-def scraping(filename):
-    html = open(filename,'r')
-    soup = BeautifulSoup(html, "html.parser")
-    for res in soup.find_all(class_="wpcr_inactive"):
-        print(res)
-    #res = soup.find(class_="wpcr_inactive").text
-    #print(res)
+def labeling(words):
+    tagger = MeCab.Tagger('-Owakati -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
+    tagger.parse('')
+    data = ''
+    label = "__label__positive, "
+    re_word = re.compile(r"[!-~︰-＠…‥、。！？「」・”]")
+    re_num = re.compile(r"[0-9]")
+    words = words.split('\n')
+    for line in words:
+        if line:
+            if re_num.match(line):
+                line = mojimoji.han_to_zen(line, ascii=False)
+            line = re_word.sub(' ',line)
+            line = tagger.parse(line)
+            data += label + line
+    return data
 
 if __name__ == "__main__":
-    #crawling("a.html","b.html")
-    #scraping("a.html")
-    scraping("b.html")
+    path = sys.argv[1]
+    word = scrape()
+    with open(path,'w') as f:
+        f.write(labeling(word))
