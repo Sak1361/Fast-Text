@@ -125,8 +125,8 @@ class Mecab:
         return wakati_list
 
 if __name__ == '__main__':
-    input_f = sys.argv[1]
-    out_f = sys.argv[2]
+    input_f = sys.argv[0]
+    out_f = sys.argv[1]
     mecab = Mecab()
     c = ""
     label = input("label name?:")

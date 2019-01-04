@@ -26,7 +26,7 @@ def crawling(url,f_path):
 if __name__ == "__main__":
     url_positive = "http://meigen.keiziban-jp.com/ポジティブ?wpcrp=1"
     url_negative = "http://meigen.keiziban-jp.com/ネガティブ?wpcrp=1"
-    filename = sys.argv[1]
+    filename = sys.argv[0]
 
     #crawling(url_positive,filename)
     crawling(url_negative,filename)

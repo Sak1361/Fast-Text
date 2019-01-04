@@ -31,7 +31,7 @@ def labeling(words):
     return data
 
 if __name__ == "__main__":
-    path = sys.argv[1]
+    path = sys.argv[0]
     word = scrape()
     with open(path,'w') as f:
         f.write(labeling(word))
