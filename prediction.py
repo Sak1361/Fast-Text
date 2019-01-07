@@ -13,16 +13,11 @@ def Content(content):
 
 def scoring(words,model):
     classifier = ft.load_model(model)
-    estimate_name = classifier.predict([words], k=2)    #k=表示件数
-    estimate = classifier.predict_proba([words], k=2)
-    print(estimate_name[0])
-    print(estimate[0])
-    """
-    if estimate_name[0][0] == "__label__1,":
-        print('ネガティブ',estimate[0][0][1],estimate[0])
-    elif estimate_name[0][0] == "__label__2,":
-        print('ポジティブ',estimate[0][0][1])
-    """
+    estimate_name = classifier.predict([words], k=5)    #k=表示件数
+    estimate = classifier.predict_proba([words], k=5)
+    print(estimate_name[0]) #label名
+    print(estimate[0])  # スコア
+
 if __name__ == '__main__':
     model = sys.argv[1]
     word = sys.argv[2]

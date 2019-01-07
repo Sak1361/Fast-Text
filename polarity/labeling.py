@@ -29,14 +29,14 @@ def labeling(word):
         line = line.split('\t')
         if len(line) == 2:
             if line[0]=='ネガ（経験）' or line[0]=='ネガ（評価）':
-                nega += "__label__negative, " + line[1] + '\n'
+                nega += "__label__Disagree, " + line[1] + '\n'
             else:
-                posi += "__label__positive, " + line[1] + '\n'
+                posi += "__label__Agree, " + line[1] + '\n'
         elif len(line) == 3:
             if line[1]=='n':
-                nega += "__label__negative, " + line[0] + '\n'
+                nega += "__label__Disagree, " + line[0] + '\n'
             elif line[1]=='p':
-                posi += "__label__positive, " + line[0] + '\n'
+                posi += "__label__Agree, " + line[0] + '\n'
             elif line[1]=='e':
                 even += "__label__even, " + line[0] + '\n'
     label = posi + nega + even
@@ -47,5 +47,5 @@ if __name__ == "__main__":
 
     labels = labeling(wago)
     labels += labeling(vocab)
-    with open('polarity_p-n-e.csv','w')as f:
+    with open('polarity_pros-cons.csv','w')as f:
         f.write(labels)
