@@ -31,7 +31,7 @@ class Mecab:
             pattern = "(.*)　(.*)"
             i = 0
             for line in f:
-                if '○' in line:
+                if line.find('○',0,10) == 0:
                     if i:
                         yield l
                         l = ""
@@ -125,8 +125,8 @@ class Mecab:
         return wakati_list
 
 if __name__ == '__main__':
-    input_f = sys.argv[0]
-    out_f = sys.argv[1]
+    input_f = sys.argv[1]
+    out_f = sys.argv[2]
     mecab = Mecab()
     c = ""
     label = input("label name?:")
