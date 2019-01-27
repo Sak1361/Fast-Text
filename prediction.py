@@ -13,8 +13,8 @@ def Content(content):
 
 def scoring(words,model):
     classifier = ft.load_model(model)
-    estimate_name = classifier.predict([words], k=5)    #k=表示件数
-    estimate = classifier.predict_proba([words], k=5)
+    estimate_name = classifier.predict([words], k=3)    #k=表示件数
+    estimate = classifier.predict_proba([words], k=3)
     print(estimate_name[0]) #label名
     print(estimate[0])  # スコア
 
