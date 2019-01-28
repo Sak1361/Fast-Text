@@ -42,7 +42,7 @@ def Content(content):
     content = content.split()
     wakati = ''
     for word in content:
-        if word in sloth:
+        if False:#word in sloth:
             pass
         else:
             wakati += word + ' '
