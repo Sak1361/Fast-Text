@@ -1,11 +1,4 @@
-import MeCab
-import re
-import urllib.request
-import codecs   #unicodeError対策
-import time
-import sys
-import os
-import json
+import MeCab, re, urllib.request, codecs , time, sys, os, json, mojimoji
 from bs4 import BeautifulSoup
 
 class Mecab:
@@ -28,9 +21,12 @@ class Mecab:
             re_tag = re.compile(r"<[^>]*?>")    #HTMLタグ
             re_n = re.compile(r'\n')  # 改行文字
             re_space = re.compile(r'[\s+]')  #１以上の空白文字
+            re_num = re.compile(r"[0-9]")
             pattern = "(.*)　(.*)"
             i = 0
             for line in f:
+                if re_num.match(line):  #半角数字は全角数字にする
+                    line = mojimoji.han_to_zen(line, ascii=False)
                 if line.find('○',0,10) == 0:
                     if i:
                         yield l
@@ -93,7 +89,6 @@ class Mecab:
         return wakatifile
 
     def counting(self,all_words):
-        #print("総文字数:{0}\t({1}万字)".format(len(all_words), len(all_words)/10000))
         wakati_list = ""
         tmp_list = []
         #ALL = 0 #単語のカウント
